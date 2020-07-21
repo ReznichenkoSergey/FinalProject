@@ -3,7 +3,19 @@
     "mssql1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/carmarket/databases/CarMarket",
       "type": "mssql.azure",
+      "connectionId": "Azure",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "type": "mssql",
       "connectionId": "Local",
+      "suggestion": "true",
+      "ignored": "true"
+    },
+    "secrets1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup1')]/providers/Microsoft.KeyVault/vaults/FinalProjectvault",
+      "type": "secrets.keyVault",
+      "connectionId": "ASPNETCORE_HOSTINGSTARTUP__KEYVAULT__CONFIGURATIONVAULT",
       "secretStore": "AzureAppSettings"
     }
   }
