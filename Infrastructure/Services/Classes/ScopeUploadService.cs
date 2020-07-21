@@ -52,7 +52,6 @@ namespace FinalProject.Infrastructure.Services.Classes
                         }).ToList();
                     countriesInfo = await _client.GetCountryInfoByRegion(CountryRegions.Americas);
                     countries.AddRange(countriesInfo
-                        .Where(x => !string.IsNullOrEmpty(x.Code) && string.IsNullOrEmpty(x.Name))
                         .Select(x => new Country()
                         {
                             Code = x.Code,
