@@ -2,20 +2,20 @@
 
 <h3>Country List</h3>
 
-<a asp-controller="Country" asp-action="Add">Add New</a>
-
 @if(Model!=null)
 {
     <table class="table-striped">
         <tr>
             <td>Code</td>
             <td>Country</td>
+            <td>Dealers</td>
         </tr>
         @foreach (var item in Model)
         {
     <tr>
         <td>@item.Code</td>
         <td>@item.Name</td>
+        <td>@item.Dealers.Count()</td>
         <td><a asp-controller="CarDealer" asp-action="Add" asp-route-id="@item.Id">Add Dealer</a></td>
     </tr>
         }
