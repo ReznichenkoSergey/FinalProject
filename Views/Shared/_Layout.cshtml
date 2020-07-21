@@ -1,4 +1,4 @@
-﻿@inject SignInManager<IdentityUser> _signInManager
+﻿
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,27 +19,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (_signInManager.IsSignedIn(ClaimsPrincipal.Current))
-                        {
-                            <li class="nav-item">
-                                <label class="nav-link text-dark" asp-area="" asp-controller="CarDealer" asp-action="GetAllDealers">@_signInManager.Options.User</label>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="GetAllCars">Logout</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="CarDealer" asp-action="GetAllDealers">LoginIn</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="GetAllCars">Register</a>
-                            </li>
-                        }
-                    </ul>
-
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="CarDealer" asp-action="GetAllDealers">Car Dealers</a>

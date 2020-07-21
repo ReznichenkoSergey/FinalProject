@@ -1,4 +1,5 @@
 ﻿@model AccountLoginViewModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor context
 
 <h1>Registration</h1>
 <form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUri="@context.HttpContext.Request.Path">

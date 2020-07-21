@@ -14,8 +14,8 @@ namespace FinalProject.Controllers
 {
     public class AccountController : Controller
     {
-        public SignInManager<IdentityUser> _signInManager { get; }
-        public UserManager<IdentityUser> _userManager { get; }
+        public SignInManager<IdentityUser> _signInManager;
+        public UserManager<IdentityUser> _userManager;
 
 
         public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
