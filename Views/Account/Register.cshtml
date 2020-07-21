@@ -1,0 +1,25 @@
+﻿@model AccountRegisterViewModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor context
+
+<h1>Registration</h1>
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div>
+        <div>
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" />
+        </div>
+        <div>
+            <label asp-for="EMail"></label>
+            <input asp-for="EMail" />
+        </div>
+        <div>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" />
+        </div>
+        <div>
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" />
+        </div>
+        <button type="submit">Register</button>
+    </div>
+</form> 

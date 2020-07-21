@@ -1,0 +1,60 @@
+﻿@model Car
+
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<h3>Active Cars</h3>
+<br />
+<div>
+
+    <table class="table-striped">
+        <tr>
+            <td><b>Model Name</b></td>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <td><b>CarState</b></td>
+            <td>@Model.CarState</td>
+        </tr>
+        <tr>
+            <td><b>VinCode</b></td>
+            <td><a title="Click to check @Model.Name history!" asp-controller="VinCode" asp-action="GetCarHistoryByVin" asp-route-vinCode="@Model.VinCode">@Model.VinCode</a></td>
+        </tr>
+        <tr>
+            <td><b>Price</b></td>
+            <td>@Model.Price</td>
+        </tr>
+        <tr>
+            <td><b>Dealer Name</b></td>
+            <td><a title="Click to check @Model.Name info!" asp-controller="Car" asp-action="GetCarsByDealerId" asp-route-dealerId="@Model.Dealer.Id">@Model.Dealer.Name</a></td>
+        </tr>
+        <tr>
+            <td><b>Status</b></td>
+            <td>@Model.CarStatus</td>
+        </tr>
+        <tr>
+            <td><b>Link</b></td>
+            <td><a href="@Model.UrlPage">View More...</a></td>
+        </tr>
+    </table>
+</div>
+
+@if (Model.CarPhotoLinks.Count() > 0)
+{
+    <br />
+    <h3>Car's Photos</h3>
+    <div>
+        <figure>
+            @foreach (var item in Model.CarPhotoLinks)
+            {
+                <img src="@item.Url" width="300" />
+            }
+        </figure>
+    </div>
+}
+else
+{
+    <h3>No Photos</h3>
+}
+

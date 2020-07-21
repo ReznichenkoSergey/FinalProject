@@ -1,0 +1,28 @@
+﻿@model List<Dealer>
+
+@{
+    ViewData["Title"] = "Car Dealers";
+}
+
+<h3>Car Dealers</h3>
+<br />
+<div>
+    <table class="table table-striped border-right-2">
+        <tr>
+            <th>Seller Name</th>
+            <th>Contact Phone</th>
+            <th>Address</th>
+            <th>Cars In Sale</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td><i>@item.ContactPhone</i></td>
+                <td>@item.Street, @item.City, @item.Zip, @item.CountryState, @item.Country.Name</td>
+                <td><a asp-controller="Car" asp-action="GetCarsByDealerId" asp-route-dealerId="@item.Id">@item.Cars.Count()</a></td>
+            </tr>
+        }
+    </table>
+</div>
+

@@ -1,0 +1,16 @@
+﻿@model Country
+
+<form method="post" asp-controller="Country" asp-action="Add">
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="Code"></label>
+        <input asp-for="Code" class="text-uppercase" /><br />
+
+        <label asp-for="Name"></label>
+        <input asp-for="Name" /><br />
+
+        <button type="submit">Add</button>
+    </div>
+</form>
