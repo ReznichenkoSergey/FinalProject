@@ -1,7 +1,8 @@
-﻿using FinalProject.Infrastructure.Services.Interfaces;
-using FinalProject.Models.CarMarket;
+﻿using FinalProject.Models.CarMarket;
 using FinalProject.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinalProject.Controllers
@@ -15,17 +16,26 @@ namespace FinalProject.Controllers
             _source = source;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllDealersAsync()
+        [HttpGet("{name?}")]
+        public async Task<IActionResult> GetAllDealersAsync(string name)
         {
             var result = await _source.GetAllAsync();
-            return View(result);
+            if (!string.IsNullOrEmpty(name))
+                return View(result
+                    .Where(x => x.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList());
+            else
+                return View(result);
         }
 
-        [HttpGet]
-        public IActionResult Add(int countryId)
+        [HttpGet("Country/{countryCode?}")]
+        public async Task<IActionResult> GetAllDealersByCountryAsync(string countryCode)
         {
-            return View(countryId);
+            var result = await _source.GetAllAsync();
+            if (!string.IsNullOrEmpty(countryCode))
+                return View("GetAllDealers", result.Where(x => x.Country.Code.Equals(countryCode, StringComparison.InvariantCultureIgnoreCase)).ToList());
+            else
+                return View("GetAllDealers", result);
         }
 
     }

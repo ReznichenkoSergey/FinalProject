@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FinalProject.Models.CarMarket;
+using FinalProject.Models.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync([FromServices] ICommonActions<Car> carSource)
         {
-            return View();
+            var cars = await carSource.GetAllAsync();
+            var result = cars
+                .OrderByDescending(x => x.DateUpdateInfo)
+                .Take(20)
+                .ToList();
+            return View(result);
         }
     }
 }

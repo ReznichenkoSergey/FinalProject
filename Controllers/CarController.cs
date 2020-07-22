@@ -45,29 +45,5 @@ namespace FinalProject.Controllers
             return View(result);
         }
 
-        //public async Task<IActionResult> GetActiveCarsAsync()
-        //{
-        //    //var result = await _marketCheckQuery.GetActiveCarAsync(null);
-        //    return View(null);
-        //}
-
-        //public async Task<IActionResult> GetCarsByDealerIdAsync(int? dealerId)
-        //{
-        //    if (!dealerId.HasValue)
-        //        return new BadRequestResult();
-
-        //    var result = await _marketCheckQuery.GetActiveCarAsync(dealerId);
-        //    return View(result);
-        //}
-
-        //public async Task<IActionResult> GetSingleCarAsync(string vinCode)
-        //{
-        //    if (string.IsNullOrEmpty(vinCode))
-        //        return new BadRequestResult();
-
-        //    var result = await _marketCheckQuery.GetCarInfoByVinCodeAsync(vinCode);
-        //    return View(result);
-        //}
-
     }
 }

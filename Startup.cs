@@ -33,6 +33,7 @@ namespace FinalProject
             services.Configure<RestApiConfig>(section);
 
             services.AddDbContext<CarMarketContext>(builder =>
+                //builder.UseSqlServer(Configuration.GetConnectionString("Local"))
                 builder.UseSqlServer(Configuration.GetConnectionString("Azure"))
                 .UseLazyLoadingProxies());
 
@@ -77,6 +78,8 @@ namespace FinalProject
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

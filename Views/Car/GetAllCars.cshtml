@@ -22,16 +22,16 @@
         {
             @foreach (var item in Model)
             {
-    <tr>
-        <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetSingleCar" asp-route-vinCode="@item.VinCode">@item.Name</a></td>
-        <td>@item.CarState</td>
-        <td><a title="Click to check @item.Name history!" asp-controller="VinCode" asp-action="GetCarHistoryByVin" asp-route-vinCode="@item.VinCode">@item.VinCode</a></td>
-        <td>@item.Price.ToString("F2")</td>
-        <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetCarsByDealerId" asp-route-dealerId="@item.Dealer.Id">@item.Dealer.Name</a></td>
-        <td>@item.CarStatus</td>
-        <td>@item.CarPhotoLinks.Count()</td>
-        <td><a href="@item.UrlPage">Redirect...</a></td>
-    </tr>
+                <tr>
+                    <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetSingleCar" asp-route-vinCode="@item.VinCode">@item.Name</a></td>
+                    <td>@item.CarState</td>
+                    <td><a title="Click to check @item.Name history!" asp-controller="CarHistory" asp-action="GetHistoryByVin" asp-route-vin="@item.VinCode">@item.VinCode</a></td>
+                    <td>@item.Price.ToString("F2")</td>
+                    <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetCarsByDealerId" asp-route-dealerId="@item.Dealer.Id">@item.Dealer.Name</a></td>
+                    <td>@item.CarStatus</td>
+                    <td>@item.CarPhotoLinks.Count()</td>
+                    <td><a href="@item.UrlPage">Redirect...</a></td>
+                </tr>
             }
         }
     </table>

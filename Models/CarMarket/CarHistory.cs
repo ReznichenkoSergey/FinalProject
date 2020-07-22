@@ -17,7 +17,7 @@ namespace FinalProject.Models.CarMarket
             Range(0, double.MaxValue)]
         public decimal Price { get; set; }
 
-        [MaxLength(30)]
+        [MaxLength(250)]
         public string PageUrl { get; set; }
 
         public CarState CarState { get; set; }

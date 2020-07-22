@@ -2,6 +2,7 @@
 using FinalProject.Infrastructure.Services.Interfaces;
 using FinalProject.Models.CarMarket;
 using FinalProject.Models.Interfaces;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +19,21 @@ namespace FinalProject.Infrastructure.Services.Classes
         readonly ICommonActions<Country> _dbCountry;
         readonly ICommonActions<Car> _dbCar;
         readonly ICommonActions<CarPhotoLink> _dbCarPhotoLink;
+        readonly ICommonActions<CarHistory> _dbCarHistory;
 
         public ScopeUploadService(IRestApiClient client,
             IVariablesKeeper keeper,
             ICommonActions<Dealer> dbDealer,
             ICommonActions<Country> dbCountry,
             ICommonActions<Car> dbCar,
+            ICommonActions<CarHistory> dbCarHistory,
             ICommonActions<CarPhotoLink> dbCarPhotoLink)
         {
             _client = client;
             _keeper = keeper;
             _dbDealer = dbDealer;
             _dbCountry = dbCountry;
+            _dbCarHistory = dbCarHistory;
             _dbCar = dbCar;
             _dbCarPhotoLink = dbCarPhotoLink;
         }
@@ -60,10 +64,10 @@ namespace FinalProject.Infrastructure.Services.Classes
 
                     await _dbCountry.AddRangeAsync(countries);
                 }
-                
+
                 //Dealers
                 var dealers = await _dbDealer.GetAllAsync();
-                if(!dealers.Any())
+                if (!dealers.Any())
                 {
                     var dealersInfo = await _client.GetAllCarDealersAsync();
                     await SetDealerAsync(dealersInfo.ToList());
@@ -91,32 +95,20 @@ namespace FinalProject.Infrastructure.Services.Classes
                         await SetCarAsync(dealer, carsInfoList.ToList());
                     }
                 }
+                //VinHistory
+                var histories = await _dbCarHistory.GetAllAsync();
+                if (!histories.Any())
+                {
+                    foreach (var car in cars)
+                    {
+                        var carsInfoList = await _client.GetCarHistoryByVinCodeAsync(car.VinCode);
+                        await SetCarHistoryAsync(car, dealers, carsInfoList.ToList());
+                    }
+                }
 
                 await Task.Delay(TimeSpan.FromDays(1));
             }
-                /*while (!stoppingToken.IsCancellationRequested)
-                {
-                    var dealers = await _client.GetAllCarDealersAsync();
-                    if (dealers != null)
-                    {
-                        await SetDealerAsync(dealers.ToList());
-
-                        int rowCount = dealers.Count;
-                        var dealersAmount = Convert.ToInt32(_keeper.GetVariableByKey("DealerContainerCounter"));
-
-                        var circlesValues = Convert.ToInt32(Math.Round((decimal)dealersAmount / (decimal)rowCount, MidpointRounding.AwayFromZero));
-                        for (int i = 1; i < circlesValues; i++)
-                        {
-                            dealers = await _client.GetAllCarDealersAsync(rowCount * i + 1);
-
-                            await SetDealerAsync(dealers.ToList());
-                        }
-                        await Task.Delay(TimeSpan.FromDays(1)); //One time per day
-                    }
-                    else
-                        await Task.Delay(TimeSpan.FromHours(1)); //One time per hour ... if failed
-                }*/
-            }
+        }
 
         private async Task SetDealerAsync(List<DealerInfo> list)
         {
@@ -269,6 +261,29 @@ namespace FinalProject.Infrastructure.Services.Classes
     public virtual Dealer Dealer { get; set; }
 
     public virtual List<CarHistory> CarHistories { get; set; }*/
+        }
+
+        private async Task SetCarHistoryAsync(Car car, List<Dealer> dealers, List<CarVinCodeHistory> list)
+        {
+            foreach (var item in list)
+            {
+                var dealer = dealers.Where(x => x.Name.Equals(item.SellerName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
+                if (dealer != null)
+                {
+                    CarHistory history = new CarHistory()
+                    {
+                        Price = item.Price,
+                        PageUrl = item.PageUrl,
+                        CarState = item.CarState.Equals("new", StringComparison.InvariantCultureIgnoreCase) ? CarState.New : CarState.IsStock,
+                        DateFirstSeen = item.DateFirstSeen,
+                        DateLastSeen = item.DateLastSeen,
+                        DateScraped = item.DateScraped,
+                        Car = car,
+                        Dealer = dealer
+                    };
+                    await _dbCarHistory.AddAsync(history);
+                }
+            };
         }
 
         private DealerStatus GetDealerStates(string status) => status switch {

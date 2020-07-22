@@ -2,11 +2,11 @@
 using FinalProject.Models.CarMarket;
 using FinalProject.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinalProject.Controllers
 {
-    [Route("[controller]")]
     public class CarHistoryController : Controller
     {
         readonly ICommonActions<CarHistory> _source;
@@ -16,10 +16,13 @@ namespace FinalProject.Controllers
             _source = source;
         }
 
-        [Route("All")]
-        public async Task<IActionResult> GetAllCarHistoriesAsync()
+        //[HttpGet("VIN")]
+        public async Task<IActionResult> GetHistoryByVinAsync([FromQuery] string vin)
         {
-            var result = await _source.GetAllAsync();
+            var vinList = await _source.GetAllAsync();
+            var result = vinList
+                .Where(x => x.Car.VinCode.Equals(vin, System.StringComparison.OrdinalIgnoreCase))
+                .ToList();
             return View(result);
         }
     }

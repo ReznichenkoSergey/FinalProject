@@ -20,7 +20,13 @@ namespace FinalProject.Models.Repositories
         public async Task AddAsync(CarHistory obj)
         {
             await _db.CarHistories.AddAsync(obj);
-            await _db.SaveChangesAsync();
+            try
+            {
+                await _db.SaveChangesAsync();
+            }catch(Exception ex)
+            {
+                var d = ex;
+            }
         }
 
         public async Task AddRangeAsync(IEnumerable<CarHistory> objEnum)

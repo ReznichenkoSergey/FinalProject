@@ -4,14 +4,16 @@ using FinalProject.Models.CarMarket;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalProject.Migrations
 {
     [DbContext(typeof(CarMarketContext))]
-    partial class CarMarketContextcsModelSnapshot : ModelSnapshot
+    [Migration("20200722102206_Resize CarHistory PageUrl")]
+    partial class ResizeCarHistoryPageUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
