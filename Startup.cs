@@ -4,6 +4,7 @@ using FinalProject.Infrastructure.Services.Classes;
 using FinalProject.Infrastructure.Services.Implementations;
 using FinalProject.Infrastructure.Services.Interfaces;
 using FinalProject.Models.CarMarket;
+using FinalProject.Models.Classes;
 using FinalProject.Models.Interfaces;
 using FinalProject.Models.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace FinalProject
 {
@@ -28,6 +30,7 @@ namespace FinalProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IRestApiClient, RestApiClient>();
+            services.AddSingleton<WebSocketsHandler>();
 
             var section = Configuration.GetSection("RestApiConfig");
             services.Configure<RestApiConfig>(section);
@@ -83,6 +86,13 @@ namespace FinalProject
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            WebSocketOptions socketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromDays(1)
+            };
+            app.UseWebSockets(socketOptions);
+
             app.UseStaticFiles();
 
             app.UseRouting();
