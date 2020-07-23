@@ -9,29 +9,37 @@
 <div>
     <table class="table table-striped">
         <tr>
-            <td>Model Name</td>
-            <td>CarState</td>
-            <td>VinCode</td>
-            <td>Price</td>
-            <td>Dealer</td>
-            <td>CarStatus</td>
-            <td>Photo</td>
-            <td>Link</td>
+            <th>Model Name</th>
+            <th>CarState</th>
+            <th>VinCode</th>
+            <th>Price</th>
+            <th>Dealer</th>
+            <th>CarStatus</th>
+            <th>Photo</th>
+            <th>Link</th>
         </tr>
         @if (Model != null)
         {
             @foreach (var item in Model)
             {
-                <tr>
-                    <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetSingleCar" asp-route-vinCode="@item.VinCode">@item.Name</a></td>
-                    <td>@item.CarState</td>
-                    <td><a title="Click to check @item.Name history!" asp-controller="CarHistory" asp-action="GetHistoryByVin" asp-route-vin="@item.VinCode">@item.VinCode</a></td>
-                    <td>@item.Price.ToString("F2")</td>
-                    <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetCarsByDealerId" asp-route-dealerId="@item.Dealer.Id">@item.Dealer.Name</a></td>
-                    <td>@item.CarStatus</td>
-                    <td>@item.CarPhotoLinks.Count()</td>
-                    <td><a href="@item.UrlPage">Redirect...</a></td>
-                </tr>
+    <tr>
+        <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetSingleCar" asp-route-vinCode="@item.VinCode">@item.Name</a></td>
+        <td>@item.CarState</td>
+
+        @if (item.CarHistories.Count > 0)
+        {
+            <td><a title="Click to check @item.Name history!" asp-controller="CarHistory" asp-action="GetHistoryByVin" asp-route-vin="@item.VinCode">@item.VinCode</a></td>
+        }
+        else
+        {
+            <td>@item.VinCode</td>
+        }
+        <td>@item.Price.ToString("F2")</td>
+        <td><a title="Click to check @item.Name info!" asp-controller="Car" asp-action="GetCarsByDealerId" asp-route-dealerId="@item.Dealer.Id">@item.Dealer.Name</a></td>
+        <td>@item.CarStatus</td>
+        <td>@item.CarPhotoLinks.Count()</td>
+        <td><a href="@item.UrlPage">Redirect...</a></td>
+    </tr>
             }
         }
     </table>

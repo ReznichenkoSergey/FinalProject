@@ -8,14 +8,21 @@ namespace FinalProject.Controllers
 {
     public class HomeController : Controller
     {
-        public async Task<IActionResult> IndexAsync([FromServices] ICommonActions<Car> carSource)
+        ICommonActions<Car> _carSource;
+        public HomeController(ICommonActions<Car> carSource)
         {
-            var cars = await carSource.GetAllAsync();
+            _carSource = carSource;
+        }
+
+        public async Task<IActionResult> IndexAsync()
+        {
+            var cars = await _carSource.GetAllAsync();
             var result = cars
                 .OrderByDescending(x => x.DateUpdateInfo)
                 .Take(20)
                 .ToList();
             return View(result);
         }
+
     }
 }

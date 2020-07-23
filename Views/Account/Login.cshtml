@@ -1,21 +1,25 @@
 ﻿@model AccountLoginViewModel
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor context
+@{
+    ViewData["Title"] = "Login";
+}
 
-<h1>Registration</h1>
-<form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUri="@context.HttpContext.Request.Path">
+<form style="width: 500px; margin-left: auto; margin-right: auto; padding: 10px"  asp-controller="Account" asp-action="Login" asp-route-returnUri="@context.HttpContext.Request.Query["returnUri"].ToString()" method="post">
+    <h3 style="text-align: center">Login</h3>
+    
+    <div asp-validation-summary="All"></div>
+
     <div>
-        <div>
-            <label asp-for="UserName"></label>
-            <input asp-for="UserName" />
-        </div>
-        <div>
-            <label asp-for="EMail"></label>
-            <input asp-for="EMail" />
-        </div>
-        <div>
-            <label asp-for="Password"></label>
-            <input asp-for="Password" />
-        </div>
-        <button type="submit">LogIn</button>
+        <label style="margin-top: 10px;" asp-for="EMail"></label><br>
+        <input style="width:100%" asp-for="EMail" /><br>
     </div>
-</form> 
+
+    <div>
+        <label style="margin-top: 10px;" asp-for="Password"></label><br>
+        <input style="width:100%" asp-for="Password" /><br>
+    </div>
+
+    <div>
+        <button style="width:100%; margin-top: 20px" type="submit">Login</button>
+    </div>
+</form>

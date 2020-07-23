@@ -9,25 +9,27 @@
 <div>
     <table class="table-striped">
         <tr>
-            <td>DateFirstSeen</td>
-            <td>DateLastSeen</td>
-            <td>DateScraped</td>
-            <td>Price</td>
-            <td>SellerName</td>
-            <td>SellerType</td>
-            <td>CarState</td>
+            <th>DateFirstSeen</th>
+            <th>DateLastSeen</th>
+            <th>DateScraped</th>
+            <th>Price</th>
+            <th>SellerName</th>
+            <th>SellerType</th>
+            <th>CarState</th>
         </tr>
         @foreach (var item in Model)
         {
-    <tr>
-        <td>@item.DateFirstSeen.ToShortDateString()</td>
-        <td>@item.DateLastSeen.HasValue? @item.DateLastSeen.Value.ToShortDateString():"No data"</td>
-        <td>@item.DateScraped.HasValue? @item.DateScraped.Value.ToShortDateString():"No data"</td>
-        <td>@item.Price.ToString("F2")</td>
-        <td>@item.Dealer.Name</td>
-        <td>@item.Dealer.Status</td>
-        <td>@item.CarState.ToString()</td>
-    </tr>
+            <tr>
+                <td>@item.DateFirstSeen.ToShortDateString()</td>
+                <td>@item.DateLastSeen.Value</td>
+                <td>@item.DateScraped.Value</td>
+                <td>@item.Price</td>
+                <td>
+                    <a title="Click to check @item.Dealer.Name info!" asp-controller="Car" asp-action="GetCarsByDealerId" asp-route-dealerId="@item.Dealer.Id">@item.Dealer.Name</a>
+                </td>
+                <td>@item.Dealer.Status</td>
+                <td>@item.CarState.ToString()</td>
+            </tr>
         }
     </table>
 </div>

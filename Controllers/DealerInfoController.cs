@@ -118,5 +118,42 @@ namespace FinalProject.Controllers
             var result = JsonConvert.SerializeObject(infolist);
             return new ObjectResult(result);
         }
+
+        [HttpPost("save")]
+        public async Task AddAsync([FromServices] ICommonActions<Country> countrySource, [FromBody] DealerInfoViewModel model)
+        {
+            if (model == null)
+                return;
+            
+            var countryList = await countrySource.GetAllAsync();
+            var country = countryList
+                .Where(x => x.Name.Equals(model.CountryName, StringComparison.InvariantCultureIgnoreCase))
+                .FirstOrDefault();
+            
+            if(country==null)
+                return;
+
+            Dealer dealer = new Dealer()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                ContactPhone = model.ContactPhone,
+                Status = model.Status.Equals("Active", StringComparison.InvariantCultureIgnoreCase) ? DealerStatus.Active : DealerStatus.Unknown,
+                Street = model.Street,
+                City = model.City,
+                CountryState = model.CountryState,
+                Country = country,
+                WebSite = model.WebSite,
+                Zip = model.Zip
+            };
+            await _dealerInfo.AddAsync(dealer);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task DeleteAsync(int id)
+        {
+            await _dealerInfo.DeleteAsync(id);
+        }
+
     }
 }

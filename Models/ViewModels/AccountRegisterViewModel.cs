@@ -5,10 +5,6 @@ namespace FinalProject.Models.ViewModels
     public class AccountRegisterViewModel
     {
         [Required, 
-            DataType(DataType.Text)]
-        public string UserName { get; set; }
-
-        [Required, 
             DataType(DataType.EmailAddress)]
         public string EMail { get; set; }
 

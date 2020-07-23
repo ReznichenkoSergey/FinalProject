@@ -1,5 +1,6 @@
 ﻿using FinalProject.Models.CarMarket;
 using FinalProject.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace FinalProject.Controllers
 {
-    //[Route("[controller]")]
     public class CarController : Controller
     {
         readonly ICommonActions<Car> _source;
@@ -17,13 +17,14 @@ namespace FinalProject.Controllers
             _source = source;
         }
 
-        //[Route("All")]
+        [Authorize]
         public async Task<IActionResult> GetAllCarsAsync()
         {
             var result = await _source.GetAllAsync();
             return View(result);
         }
 
+        [Authorize]
         public async Task<IActionResult> GetCarsByDealerIdAsync(int? dealerId)
         {
             if (!dealerId.HasValue)
@@ -35,6 +36,7 @@ namespace FinalProject.Controllers
             return View(result);
         }
 
+        [Authorize]
         public async Task<IActionResult> GetSingleCarAsync(string vinCode)
         {
             if (string.IsNullOrEmpty(vinCode))

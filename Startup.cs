@@ -32,12 +32,16 @@ namespace FinalProject
             var section = Configuration.GetSection("RestApiConfig");
             services.Configure<RestApiConfig>(section);
 
+            var sectionEMail = Configuration.GetSection("EmailConfig");
+            services.Configure<EmailConfig>(sectionEMail);
+
             services.AddDbContext<CarMarketContext>(builder =>
                 //builder.UseSqlServer(Configuration.GetConnectionString("Local"))
                 builder.UseSqlServer(Configuration.GetConnectionString("Azure"))
                 .UseLazyLoadingProxies());
 
             services.AddSingleton<IVariablesKeeper, VariablesKeeper>();
+            services.AddSingleton<IMessageService, MessageService>();
 
             services.AddTransient<ICommonActions<Car>, CarRepository>();
             services.AddTransient<ICommonActions<CarPhotoLink>, CarPhotoLinkRepository>();
@@ -52,15 +56,19 @@ namespace FinalProject
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<CarMarketContext>();
 
-            services.Configure<IdentityOptions>(option =>
-           {
-               option.Password.RequireDigit = false;
-               option.Password.RequireLowercase = false;
-               option.Password.RequiredLength = 3;
-               option.Password.RequiredUniqueChars = 0;
-               option.Password.RequireUppercase = false;
-               option.User.RequireUniqueEmail = false;
-           });
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
 
             services.AddControllersWithViews();
         }

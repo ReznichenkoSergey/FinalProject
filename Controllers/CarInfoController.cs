@@ -68,5 +68,41 @@ namespace FinalProject.Controllers
             return new ObjectResult(result);
         }
 
+        [HttpPost("save")]
+        public async Task Add([FromServices] ICommonActions<Dealer> dealerSource, [FromBody] CarInfoViewModel model)
+        {
+            if (model == null)
+                return;
+
+            var dealerList = await dealerSource.GetAllAsync();
+            var dealer = dealerList
+                .Where(x => x.Id == model.DealerId)
+                .FirstOrDefault();
+
+            if (dealer == null)
+                return;
+
+            Car car = new Car()
+            {
+                Id = model.Id,
+                CarState = model.CarState.Equals("new", StringComparison.InvariantCultureIgnoreCase) ? CarState.New : CarState.IsStock,
+                ColorExterior = model.ColorExterior,
+                ColorInterior = model.ColorInterior,
+                Dealer = dealer,
+                Name = model.Name,
+                Price = model.Price,
+                VinCode = model.VinCode,
+                CarStatus = CarStatus.Active,
+                NativeId = "None"
+            };
+            await _carinfo.AddAsync(car);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task Delete(int id)
+        {
+            await _carinfo.DeleteAsync(id);
+        }
+
     }
 }

@@ -1,25 +1,41 @@
 ﻿@model AccountRegisterViewModel
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor context
 
-<h1>Registration</h1>
-<form method="post" asp-controller="Account" asp-action="Register">
+@{
+    ViewData["Title"] = "Registration";
+}
+
+@{
+    var error = ViewData["errors"] as IEnumerable<IdentityError>;
+    if (error != null)
+    {
+        foreach (var err in error)
+        {
+            @err.Description
+            <br />
+;
+        }
+    }
+}
+
+
+<form style="width: 500px; margin-left: auto; margin-right: auto; padding: 10px" asp-controller="Account" asp-action="Register" method="post">
+    <h3 style="text-align: center">Registration</h3>
+    
+    <div asp-validation-summary="All"></div>
+
     <div>
-        <div>
-            <label asp-for="UserName"></label>
-            <input asp-for="UserName" />
-        </div>
-        <div>
-            <label asp-for="EMail"></label>
-            <input asp-for="EMail" />
-        </div>
-        <div>
-            <label asp-for="Password"></label>
-            <input asp-for="Password" />
-        </div>
-        <div>
-            <label asp-for="ConfirmPassword"></label>
-            <input asp-for="ConfirmPassword" />
-        </div>
-        <button type="submit">Register</button>
+        <label style="margin-top: 10px;" asp-for="EMail"></label><br>
+        <input style="width:100%" asp-for="EMail" /><br>
     </div>
-</form> 
+    <div>
+        <label style="margin-top: 10px" asp-for="Password"></label><br>
+        <input style="width:100%" asp-for="Password" /><br>
+    </div>
+    <div>
+        <label style="margin-top: 10px" asp-for="ConfirmPassword"></label><br>
+        <input style="width:100%" asp-for="ConfirmPassword" /><br>
+    </div>
+    <div>
+        <button style="width:100%; margin-top: 20px" type="submit">OK</button>
+    </div>
+</form>

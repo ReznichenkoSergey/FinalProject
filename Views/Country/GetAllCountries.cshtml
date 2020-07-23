@@ -2,21 +2,21 @@
 
 <h3>Country List</h3>
 
-@if(Model!=null)
+@if (Model != null)
 {
     <table class="table-striped">
         <tr>
-            <td>Code</td>
-            <td>Country</td>
-            <td>Dealers</td>
+            <th>Code</th>
+            <th>Country</th>
+            <th>Dealers</th>
         </tr>
         @foreach (var item in Model)
         {
-    <tr>
-        <td>@item.Code</td>
-        <td>@item.Name</td>
-        <td><a asp-controller="CarDealer" asp-action="GetAllDealersByCountry" asp-route-countryCode="@item.Code">@item.Dealers.Count()</a></td>
-    </tr>
+            <tr>
+                <td>@item.Code</td>
+                <td>@item.Name</td>
+                <td><a asp-controller="CarDealer" asp-action="GetAllDealersByCountry" asp-route-countryCode="@item.Code">@item.Dealers.Count()</a></td>
+            </tr>
         }
     </table>
 
