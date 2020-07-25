@@ -79,6 +79,8 @@ namespace FinalProject.Models.Classes
                 //
                 await connection.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
                 
+                await Task.Delay(3000);
+                
                 //support response
                 Random random = new Random();
                 var content = $"({DateTime.Now.ToShortTimeString()}) <i>Support</i>: {_queries[random.Next(0, _queries.Count - 1)]}";
