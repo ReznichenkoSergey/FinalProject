@@ -16,7 +16,6 @@ namespace FinalProject.Controllers
             _source = source;
         }
 
-        [HttpGet("{name?}")]
         public async Task<IActionResult> GetAllDealersAsync(string name)
         {
             var result = await _source.GetAllAsync();
@@ -28,7 +27,6 @@ namespace FinalProject.Controllers
                 return View(result);
         }
 
-        [HttpGet("Country/{countryCode?}")]
         public async Task<IActionResult> GetAllDealersByCountryAsync(string countryCode)
         {
             var result = await _source.GetAllAsync();

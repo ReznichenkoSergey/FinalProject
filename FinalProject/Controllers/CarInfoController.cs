@@ -5,7 +5,6 @@ using FinalProject.Models.CarMarket;
 using FinalProject.Models.Interfaces;
 using FinalProject.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Newtonsoft.Json;
 
 namespace FinalProject.Controllers

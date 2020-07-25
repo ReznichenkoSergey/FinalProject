@@ -1,5 +1,4 @@
-﻿using FinalProject.Infrastructure.Services.Interfaces;
-using FinalProject.Models.CarMarket;
+﻿using FinalProject.Models.CarMarket;
 using FinalProject.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -16,7 +15,6 @@ namespace FinalProject.Controllers
             _source = source;
         }
 
-        //[HttpGet("VIN")]
         public async Task<IActionResult> GetHistoryByVinAsync([FromQuery] string vin)
         {
             var vinList = await _source.GetAllAsync();
