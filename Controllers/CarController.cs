@@ -47,5 +47,15 @@ namespace FinalProject.Controllers
             return View(result);
         }
 
+        [Authorize]
+        public async Task<IActionResult> GetCarByIdAsync(int id)
+        {
+            if (id <= 0)
+                return new BadRequestResult();
+
+            var result = await _source.GetByIdAsync(id);
+            return View(result);
+        }
+
     }
 }

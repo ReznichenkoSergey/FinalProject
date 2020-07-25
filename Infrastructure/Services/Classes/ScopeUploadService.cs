@@ -89,6 +89,7 @@ namespace FinalProject.Infrastructure.Services.Classes
                 var cars = await _dbCar.GetAllAsync();
                 if (!cars.Any())
                 {
+                    dealers = await _dbDealer.GetAllAsync();
                     foreach (var dealer in dealers)
                     {
                         var carsInfoList = await _client.GetActiveCarAsync(dealer.NativeId);
@@ -99,6 +100,8 @@ namespace FinalProject.Infrastructure.Services.Classes
                 var histories = await _dbCarHistory.GetAllAsync();
                 if (!histories.Any())
                 {
+                    cars = await _dbCar.GetAllAsync();
+                    dealers = await _dbDealer.GetAllAsync();
                     foreach (var car in cars)
                     {
                         var carsInfoList = await _client.GetCarHistoryByVinCodeAsync(car.VinCode);
