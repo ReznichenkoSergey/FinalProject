@@ -1,5 +1,6 @@
 ﻿using FinalProject.Models.CarMarket;
 using FinalProject.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
     public class CarDealerController : Controller
     {
         readonly ICommonActions<Dealer> _source;
